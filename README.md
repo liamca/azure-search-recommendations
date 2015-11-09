@@ -1,6 +1,14 @@
+---
+services: search
+platforms: dotnet
+author: liamca
+---
+
 # Azure Search Recommendations Sample
 
 This sample shows how to easily add recommendations to an Azure Search index.  
+
+![Demo Screen Shot](https://raw.githubusercontent.com/liamca/azure-search-recommendations/master/product_recommendations.png)
 
 ## What is a Recommendation?
 
@@ -57,6 +65,7 @@ The application that created the Azure Search index, had also created a field ca
 ## Visualizing the Recommendations
 At this point you should be able to go back to the web application and click on any of the movies to see recommendations.
 
+If you want to see how the recommendations were returned when you clicked on this image, open Search.js and look at the openMovieDetails() function.
 
 
 
