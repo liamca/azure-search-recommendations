@@ -18,6 +18,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
+using System.Linq;
 
 namespace ImportAzureSearchIndexData
 {
@@ -66,9 +68,6 @@ namespace ImportAzureSearchIndexData
                         new Field("year",           DataType.Int32)             { IsKey = false, IsSearchable = false, IsFilterable = true,  IsSortable = true,  IsFacetable = true,  IsRetrievable = true  },
                         new Field("rtID",           DataType.String)            { IsKey = false, IsSearchable = false, IsFilterable = false, IsSortable = false, IsFacetable = false, IsRetrievable = true  },
                         new Field("rtAllCriticsRating",DataType.Double)         { IsKey = false, IsSearchable = false, IsFilterable = true,  IsSortable = true,  IsFacetable = true,  IsRetrievable = true  },
-                        new Field("actorTags",DataType.Collection(DataType.String)) { IsSearchable = true, IsFilterable = true, IsFacetable = true },
-                        new Field("genreTags",DataType.Collection(DataType.String)) { IsSearchable = true, IsFilterable = true, IsFacetable = true },
-                        new Field("movieTags",DataType.Collection(DataType.String)) { IsSearchable = true, IsFilterable = true, IsFacetable = true },
                         new Field("recommendations",DataType.Collection(DataType.String)) { IsSearchable = true, IsFilterable = true, IsFacetable = true }
                     },
                         Suggesters = new[]
@@ -83,27 +82,7 @@ namespace ImportAzureSearchIndexData
                     // first apply the changes and if we succeed then record the new version that 
                     // we'll use as starting point next time
                     Console.WriteLine("{0}", "Uploading Content...\n");
-                    ApplyData(@"data\movies1.json");
-                    ApplyData(@"data\movies2.json");
-                    ApplyData(@"data\movies3.json");
-                    ApplyData(@"data\movies4.json");
-                    ApplyData(@"data\movies5.json");
-                    ApplyData(@"data\movies6.json");
-                    ApplyData(@"data\movies7.json");
-                    ApplyData(@"data\movies8.json");
-                    ApplyData(@"data\movies9.json");
-                    ApplyData(@"data\movies10.json");
-                    ApplyData(@"data\movies11.json");
-                    ApplyData(@"data\movies12.json");
-                    ApplyData(@"data\movies13.json");
-                    ApplyData(@"data\movies14.json");
-                    ApplyData(@"data\movies15.json");
-                    ApplyData(@"data\movies16.json");
-                    ApplyData(@"data\movies17.json");
-                    ApplyData(@"data\movies18.json");
-                    ApplyData(@"data\movies19.json");
-                    ApplyData(@"data\movies20.json");
-                    ApplyData(@"data\movies21.json");
+                    ApplyData(@"data\movies.dat");
 
                 }
             }
@@ -113,34 +92,88 @@ namespace ImportAzureSearchIndexData
             }
         }
 
-
         public static void ApplyData(string fileName)
         {
             List<IndexAction> indexOperations = new List<IndexAction>();
-            IndexAction ia = new IndexAction();
-            object session = Newtonsoft.Json.JsonConvert.DeserializeObject(System.IO.File.ReadAllText(fileName));
-            JArray docArray = (JArray)(session);
-            foreach (var document in docArray)
+            string line;
+            int rowCounter = 0;
+            int totalCounter = 0;
+            int n;
+            double d;
+
+            // Get unique rated movies
+            IEnumerable<int> ratedMovies = ImportRatedIDs();
+
+            // Read the file and display it line by line.
+            using (StreamReader file = new StreamReader(fileName))
             {
-                Document doc = new Document();
-                doc.Add("id", Convert.ToString(document["id"]));
-                doc.Add("title", Convert.ToString(document["title"]));
-                doc.Add("imdbID", Convert.ToInt32(document["imdbID"]));
-                doc.Add("spanishTitle", Convert.ToString(document["spanishTitle"]));
-                doc.Add("imdbPictureURL", Convert.ToString(document["imdbPictureURL"]));
-                doc.Add("year", Convert.ToInt32(document["year"]));
-                doc.Add("rtID", Convert.ToString(document["rtID"]));
-                doc.Add("rtAllCriticsRating", Convert.ToDouble(document["rtAllCriticsRating"]));
-                doc.Add("actorTags", (JArray)document["actorTags"]);
-                doc.Add("genreTags", (JArray)document["genreTags"]);
-                doc.Add("movieTags", (JArray)document["movieTags"]);
+                file.ReadLine();    // Skip header
+                while ((line = file.ReadLine()) != null)
+                {
 
-                indexOperations.Add(new IndexAction(IndexActionType.Upload, doc));
+                    char[] delimiters = new char[] { '\t' };
+                    string[] parts = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    // If it is a rated movie, add it
+                    if (ratedMovies.Contains(Convert.ToInt32(parts[0])))
+                    {
+                        Document doc = new Document();
+                        doc.Add("id", Convert.ToString(parts[0]));
+                        doc.Add("title", Convert.ToString(parts[1]));
+                        doc.Add("imdbID", Convert.ToInt32(parts[2]));
+                        doc.Add("spanishTitle", Convert.ToString(parts[3]));
+                        doc.Add("imdbPictureURL", Convert.ToString(parts[4]));
+
+                        if (int.TryParse(parts[5], out n))
+                            doc.Add("year", Convert.ToInt32(parts[5]));
+                        doc.Add("rtID", Convert.ToString(parts[6]));
+
+                        if (double.TryParse(parts[7], out d))
+                            doc.Add("rtAllCriticsRating", Convert.ToDouble(parts[7]));
+
+                        indexOperations.Add(new IndexAction(IndexActionType.Upload, doc));
+                        rowCounter++;
+                        totalCounter++;
+                        if (rowCounter == 1000)
+                        {
+                            IndexClient.Documents.Index(new IndexBatch(indexOperations));
+                            indexOperations.Clear();
+                            Console.WriteLine("Uploaded {0} docs...", totalCounter);
+                            rowCounter = 0;
+                        }
+                    }
+                }
+                if (rowCounter > 0)
+                {
+                    Console.WriteLine("Uploading {0} docs...", rowCounter);
+                    IndexClient.Documents.Index(new IndexBatch(indexOperations));
+                }
+
+                file.Close();
             }
-            Console.WriteLine("Uploading {0}...\n", fileName);
-
-            IndexClient.Documents.Index(new IndexBatch(indexOperations));
         }
+
+        public static IEnumerable<int> ImportRatedIDs()
+        {
+            List<int> ratedMovies = new List<int>();
+            string line;
+
+            Console.WriteLine("Getting rated movies...");
+
+            using (StreamReader file = new StreamReader("data\\user_ratedmovies.dat"))
+            {
+                file.ReadLine();    // Skip header
+                while ((line = file.ReadLine()) != null)
+                {
+                    char[] delimiters = new char[] { '\t' };
+                    string[] parts = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                    ratedMovies.Add(Convert.ToInt32(parts[1]));
+                }
+            }
+
+            return (from d in ratedMovies select d).Distinct();
+
+        }
+
 
         public static bool DeleteIndex(SearchServiceClient searchClient, string dataset)
         {
