@@ -67,5 +67,10 @@ At this point you should be able to go back to the web application and click on 
 
 If you want to see how the recommendations were returned when you clicked on this image, open Search.js and look at the openMovieDetails() function.
 
+## Credit
+
+Data was provided by GrouLens (http://grouplens.org/datasets/hetrec-2011/)
+
+Please refer to this page for details on the licensing of this data: http://files.grouplens.org/datasets/hetrec2011/hetrec2011-movielens-readme.txt
 
 
