@@ -22,6 +22,7 @@ Common recommendations include:
 
 - Open the solution AzureSearchMovieRecommendations.sln and set ImportAzureSearchIndexData as the Default Project.  
 - Open Program.cs within ImportAzureSearchIndexData and alter SearchServiceName and SearchApiKey to point to your Azure Search service
+- Download hetrec2011-movielens-2k.zip from http://grouplens.org/datasets/hetrec-2011/ and copy the files to the \data directory
 - Run the project to create an index and load Movie data 
 - At the end, the application will execute a test search
 
