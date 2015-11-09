@@ -1,24 +1,37 @@
-## Loading Data into Azure SQL / SQL Server database
+# Azure Search Recommendations Sample
 
-To load the data into the SQL database:
-- Create a database 
-- Create a Movies table using the file: data\sql_table_create.sql
-- Import the data from the Tab delimited file (sql_movie_data.txt) using BCP from command line with a command similar to the following:
-	bcp Movies in data\sql_movie_data.txt -S [AZURESQLSERVER].database.windows.net -d [AZURESQLDATABASENAME] -U [SQLUSERNAME] -P [SQLPASSWORD] -t "\t" -c
+This sample shows how to easily add recommendations to an Azure Search index.  
 
-## Code to add to the Bootstrap Template
+## What is a Recommendation?
 
-The completed JavaScript code to allow you to Query the Azure Search index can be found: 
-\JavaScipt.src\bootstrap-3.3.5\docs\examples\starter-template - Complete
+Recommendations is a technique for surfacing more items from a catalog based on existing search User activity (such as web logs) used to recommend items and improve conversion.  
+Recommendation engines often trained using past customer activity or by collecting data directly from digital store
+Common recommendations include: 
+- Frequently Bought Together: a customer who bought this also bought that
+- Customer to Item recommendations: a customer like you also bought that
+
+## Creating the Azure Search Index
+
+- Open the solution AzureSearchMovieRecommendations.sln and set ImportAzureSearchIndexData as the Default Project.  
+- Open Program.cs within ImportAzureSearchIndexData and alter SearchServiceName and SearchApiKey to point to your Azure Search service
+- Run the project to create an index and load Movie data 
+- At the end, the application will execute a test search
+
+## Create a simple HTML application to Search Movies
+
+A completed JavaScript web application to allow you to Query the Azure Search index can be found: 
+\WebSite\starter-template-complete
 
 If you would like to walk through the demo from scratch, the original CSS can be found here:
-\JavaScipt.src\bootstrap-3.3.5\docs\examples\starter-template
+\WebSite\starter-template
 
-If you do not wish to create your own Azure Search service, you can use the one included in the "starter-template - Complete" directory that provides a Query API key, allowing you to execute queries but not make changes to the Azure Search index.
+Open the search.js file within \WebSite\starter-template-complete and update the apiKey and azureSearchService with your Azure Search service details.
 
-## Command for executing Mahout Recommendations
+You should be able to open this file in a browser such as Chrome to now view movies by typing into the search box.
 
-- Upload the file data\movie_usage.txt to Blob Storage 
+## Command for executing Creating Recommendations using Mahout
+
+- Upload the file data\movie_usage.txt to Azure Blob Storage 
 - Create an HDInsight instance (enabling Remote Desktop) and connect to the machine through Remote Desktop (available from the Azure Portal)
 - From the HDInsight machine, open the "Hadoop Command Line"
 - Change to the Mahout bin directory under c:\apps\dist.  Mine looks like this, but you may get a more recent version of Mahout
@@ -32,6 +45,18 @@ This should take quite a few minutes to complete, but when it does, your storage
 
 This file has 3 columns: [Item ID of Movie], [Item ID of Recommendations related to this Movie], [Similarity Percentage]
 
-## Importing Data from 
+## Importing Data from Mahout to Azure Search
+
+The application that created the Azure Search index, had also created a field called Recommendations which is of type Collection (which is like a comma separated set of strings).  We will merge the data created in the previous step with this Azure Search index.  
+
+- From the Visual Studio solution AzureSearchMovieRecommendations.sln, open Program.cs within MahoutOutputLoader.
+- Update SearchServiceName and SearchApiKey with your Azure Search service details
+- Update StorageApiKey and StorageAccountName with your Azure Storage account details for which you stored your Mahout product recommendations file
+- Run the application to merge the data
+ 
+## Visualizing the Recommendations
+At this point you should be able to go back to the web application and click on any of the movies to see recommendations.
+
+
 
 
