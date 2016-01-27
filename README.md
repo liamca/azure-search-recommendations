@@ -38,6 +38,40 @@ Open the search.js file within \WebSite\starter-template-complete and update the
 
 You should be able to open this file in a browser such as Chrome to now view movies by typing into the search box.
 
+## Getting Usage Data using Azure Search Traffic Analytics
+Azure Search Traffic Analytics is a feature of Azure Search that tracks all activity agains your search service.  This includes statistic as well as details of individual search operations.  You can learn more about this feature in my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) as well as the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
+
+For this demo, we will be extracting all of the individual document lookups.  This would happen when a user see's search results and then clicks on an individual result to get details.  An example of a lookup of a document with ID 30 might look like the following.
+<pre><code>
+https://azs-playground.search.windows.net/indexes/movies/docs('32')?api-version=2015-02-28&userid=75
+</code></pre>
+Notice how this example also appends a parameter userid.  This has no impact on the search results, but it is important for our demo because it allows us to uniquely identify which users looked at which items, and will be later used in our recommendations analysis.
+
+In the Search Traffic Analytics, this operation will be logged and will look like this:
+<pre><code>
+{
+	"records": 
+	[
+		{
+			 "time": "2016-01-25T23:00:00.0113871Z",
+			 "resourceId": "/SUBSCRIPTIONS/[REDACTED]/RESOURCEGROUPS/[REDACTED]/PROVIDERS/MICROSOFT.SEARCH/SEARCHSERVICES/[REDACTED]",
+			 "operationName": "Query.Lookup",
+			 "operationVersion": "2015-02-28",
+			 "category": "OperationLogs",
+			 "resultType": "Success",
+			 "resultSignature": 200,
+			 "durationMS": 2,
+			 "properties": { "Description" : "GET /indexes('movies')/docs('30')" , "Query" : "?userid=75&api-version=2015-02-28" , "Documents" : 0, "IndexName" : "movies" }
+		}
+	]
+}
+</code></pre>
+
+Ultimately, our goal will be to extract each UserID / ItemID values from all of this lookup data.  But first, let's simulate a ton of user lookups.
+
+### Simulating User Lookups
+
+
 ## Command for executing Creating Recommendations using Mahout
 
 - Upload the file data\movie_usage.txt to Azure Blob Storage 
