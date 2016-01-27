@@ -69,8 +69,15 @@ In the Search Traffic Analytics, this operation will be logged and will look lik
 
 Ultimately, our goal will be to extract each UserID / ItemID values from all of this lookup data.  But first, let's simulate a ton of user lookups.
 
+### Enable Search Traffic Analytics
+
+At this point you will need to turn on Search Traffic Analytics.  If you are not familiar with how to do this, please refer to my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) or the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
+
 ### Simulating User Lookups
 
+To simulate these user requests you can run the SimulateAzureSearchLookupRequests project from within the AzureSearchMovieRecommendations Solution.  Before running, remember to add your Azure Search service name and Admin API Key.  
+
+This process will take some time since it is simlating over 600,000 users lookups.  
 
 ## Command for executing Creating Recommendations using Mahout
 
