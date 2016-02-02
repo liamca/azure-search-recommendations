@@ -79,6 +79,21 @@ To simulate these user requests you can run the SimulateAzureSearchLookupRequest
 
 This process will take some time since it is simlating over 600,000 users lookups.  
 
+### Extracting User Data for Recommendations
+
+Now that we have simulated a huge number of user search requests, we will want to export this data into a csv file (which we will call usage.csv) that is in format userId, productId indicating that the user of id userId looked at an item with id of productId. For example:
+
+<pre><code>
+78,1391
+78,1193
+78,1653
+127,2013
+127,2719
+127,5523
+</code></pre>
+
+To do this, within the AzureSearchAnalyticsExtraction project, configure the Storage Account information in the app.config as well as the folder where the container.GetDirectoryReference can find your search operations logs.
+
 ## Command for executing Creating Recommendations using Mahout
 
 - Upload the file data\movie_usage.txt to Azure Blob Storage 
