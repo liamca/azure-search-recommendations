@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportAzureSearchIndexData"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MahoutOutputLoader", "MahoutOutputLoader\MahoutOutputLoader.csproj", "{BBCAF596-9F8D-434E-B48C-944E94CA9E26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulateAzureSearchLookupRequests", "SimulateAzureSearchLookupRequests\SimulateAzureSearchLookupRequests.csproj", "{A8F1D3E6-BE55-4972-8FED-BB0C28E4BAE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BBCAF596-9F8D-434E-B48C-944E94CA9E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBCAF596-9F8D-434E-B48C-944E94CA9E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBCAF596-9F8D-434E-B48C-944E94CA9E26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8F1D3E6-BE55-4972-8FED-BB0C28E4BAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F1D3E6-BE55-4972-8FED-BB0C28E4BAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F1D3E6-BE55-4972-8FED-BB0C28E4BAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F1D3E6-BE55-4972-8FED-BB0C28E4BAE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
