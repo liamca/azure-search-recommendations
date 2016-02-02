@@ -105,7 +105,12 @@ To do this, within the AzureSearchAnalyticsExtraction project, configure the Sto
 - Execute the following command line where you replace the [CONTAINER] & [STORAGEACT] with your Azure Storage details (where you placed the movie_usage.txt file):
 
 <pre><code>
-mahout itemsimilarity -s SIMILARITY_COSINE --input "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/movie_usage.txt" --output "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/output/" --tempDir "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/temp" -m 5
+mahout itemsimilarity 
+   -s SIMILARITY_COSINE 
+   --input "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/movie_usage.txt" 
+   --output "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/output/" 
+   --tempDir "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/temp" 
+   -m 5
 </code></pre>
 
 This should take quite a few minutes to complete, but when it does, your storage container should contain the following file which will include your movie recommendataions:
