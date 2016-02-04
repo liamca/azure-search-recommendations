@@ -94,7 +94,7 @@ Now that we have simulated a huge number of user search requests, we will want t
 
 To do this, within the AzureSearchAnalyticsExtraction project, configure the Storage Account information in the app.config as well as the folder where the container.GetDirectoryReference can find your search operations logs.
 
-## Command for executing Creating Recommendations using Mahout
+## Command to Create Recommendations using Mahout
 
 - Upload the file data\movie_usage.txt to Azure Blob Storage 
 - I used Azure HDInsight to create a Hadoop version 2.7.0  (HDI 3.3) cluster on Windows which you might want to also created because Mahout can act very differntly from version to version.
