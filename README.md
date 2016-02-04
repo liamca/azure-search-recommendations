@@ -122,9 +122,16 @@ In the previous step, we created a usage.csv file from Azure Search Traffic Anal
 
 ## Visualizing the Recommendations
 
-At this point you should be able to go back to the web application and click on any of the movies to see recommendations.
+At this point you should be able to go back to the web application and update it with the Model ID and Build ID from the previous step in the Search.js file.
+
+<pre><code>
+var azureMLModelId = ""
+var azureMLBuildId = ""
+</code></pre>
 
 If you want to see how the recommendations were returned when you clicked on this image, open Search.js and look at the openMovieDetails() function.
+
+At this point you should be able to launch the web page, search for movies and return recommendations.
 
 ## Operationalizing the Process
 Keeping an HDInsight cluster running all the time can be fairly expensive, so it is better to simply launch a new instance whenever you want to update the recommendations in your Azure Search service.  There are numerous ways to do this, but one option is to use Azure Data Factory, where you can create a scheduled process to run this.  You can learn more about how to do this, [here](https://azure.microsoft.com/en-in/documentation/articles/data-factory-map-reduce/).
