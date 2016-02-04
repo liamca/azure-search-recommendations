@@ -131,7 +131,7 @@ If you want to see how the recommendations were returned when you clicked on thi
 At this point you should be able to launch the web page, search for movies and return recommendations.
 
 ## Operationalizing the Process
-Keeping an HDInsight cluster running all the time can be fairly expensive, so it is better to simply launch a new instance whenever you want to update the recommendations in your Azure Search service.  There are numerous ways to do this, but one option is to use Azure Data Factory, where you can create a scheduled process to run this.  You can learn more about how to do this, [here](https://azure.microsoft.com/en-in/documentation/articles/data-factory-map-reduce/).
+To this point we have been running console applications to extract the usage data and then update the Azure ML Recommendations engine.  A good way to operationalize this is by publishing the code as an [Azure WebJob](https://azure.microsoft.com/en-us/documentation/articles/web-sites-create-web-jobs/) to allow yourself to schedule this execution.
 
 ## Credit
 
