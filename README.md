@@ -6,7 +6,7 @@ author: liamca
 
 # Azure Search Recommendations Sample
 
-This sample shows how to easily add recommendations to an Azure Search index.  
+This sample shows how to add recommendations to an Azure Search index.  
 
 ![Demo Screen Shot](https://raw.githubusercontent.com/liamca/azure-search-recommendations/master/product_recommendations.png)
 
