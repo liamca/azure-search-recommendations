@@ -6,7 +6,7 @@ author: liamca
 
 # Azure Search Recommendations Sample
 
-This sample shows how to easily add recommendations to an Azure Search index.  
+This sample shows how to add recommendations to an Azure Search index.  
 
 ![Demo Screen Shot](https://raw.githubusercontent.com/liamca/azure-search-recommendations/master/product_recommendations.png)
 
@@ -15,8 +15,8 @@ This sample shows how to easily add recommendations to an Azure Search index.
 Recommendations is a technique for surfacing more items from a catalog based on existing search User activity (such as web logs) used to recommend items and improve conversion.  
 Recommendation engines often trained using past customer activity or by collecting data directly from digital store
 Common recommendations include: 
-- Frequently Bought Together: a customer who bought this also bought that
-- Customer to Item recommendations: a customer like you also bought that
+- <b>Frequently Bought Together</b>: a customer who bought this also bought that
+- <b>Customer to Item Recommendations</b>: a customer like you also bought that
 
 ## Creating the Azure Search Index
 
@@ -39,7 +39,7 @@ Open the search.js file within \WebSite\starter-template-complete and update the
 You should be able to open this file in a browser such as Chrome to now view movies by typing into the search box.
 
 ## Getting Usage Data using Azure Search Traffic Analytics
-Azure Search Traffic Analytics is a feature of Azure Search that tracks all activity agains your search service.  This includes statistic as well as details of individual search operations.  You can learn more about this feature in my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) as well as the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
+Azure Search Traffic Analytics is a feature of Azure Search that tracks all activity against your search service.  This includes statistic as well as details of individual search operations.  You can learn more about this feature in my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) as well as the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
 
 For this demo, we will be extracting all of the individual document lookups.  This would happen when a user see's search results and then clicks on an individual result to get details.  An example of a lookup of a document with ID 30 might look like the following.
 <pre><code>
@@ -71,13 +71,13 @@ Ultimately, our goal will be to extract each UserID / ItemID values from all of 
 
 ### Enable Search Traffic Analytics
 
-At this point you will need to turn on Search Traffic Analytics.  If you are not familiar with how to do this, please refer to my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) or the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
+At this point you will need to turn on Search Traffic Analytics for your Azure Search service.  If you are not familiar with how to do this, please refer to my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) or the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
 
 ### Simulating User Lookups
 
-To simulate these user requests you can run the SimulateAzureSearchLookupRequests project from within the AzureSearchMovieRecommendations Solution.  Before running, remember to add your Azure Search service name and Admin API Key.  
+To simulate these user requests you can run the SimulateAzureSearchLookupRequests project from within the AzureSearchMovieRecommendations Solution.  Before running, remember to add your Azure Search service name and Azure Search admin API key.  
 
-This process will take some time since it is simlating over 600,000 users lookups.  
+This process will take some time since it is simulating over 600,000 users lookups.  
 
 ### Extracting User Data for Recommendations
 
@@ -94,10 +94,10 @@ Now that we have simulated a huge number of user search requests, we will want t
 
 To do this, within the AzureSearchAnalyticsExtraction project, configure the Storage Account information in the app.config as well as the folder where the container.GetDirectoryReference can find your search operations logs.
 
-## Command for executing Creating Recommendations using Mahout
+## Command to Create Recommendations using Mahout
 
 - Upload the file data\movie_usage.txt to Azure Blob Storage 
-- I used Azure HDInsight to create a Hadoop version 2.7.0  (HDI 3.3) cluster on Windows which you might want to also created because Mahout can act very differntly from version to version.
+- I used Azure HDInsight to create a Hadoop version 2.7.0  (HDI 3.3) cluster on Windows which you might want to also created because Mahout can act very differently from version to version.
 - Create an HDInsight instance (enabling Remote Desktop) and connect to the machine through Remote Desktop (available from the Azure Portal).  
 - From the HDInsight machine, open the "Hadoop Command Line"
 - Change to the Mahout bin directory under c:\apps\dist.  Mine looks like this, but you may get a more recent version of Mahout
@@ -105,10 +105,15 @@ To do this, within the AzureSearchAnalyticsExtraction project, configure the Sto
 - Execute the following command line where you replace the [CONTAINER] & [STORAGEACT] with your Azure Storage details (where you placed the movie_usage.txt file):
 
 <pre><code>
-mahout itemsimilarity -s SIMILARITY_COSINE --input "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/movie_usage.txt" --output "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/output/" --tempDir "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/temp" -m 5
+mahout itemsimilarity 
+   -s SIMILARITY_COSINE 
+   --input "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/movie_usage.txt" 
+   --output "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/output/" 
+   --tempDir "wasb://[CONTAINER]@[STORAGEACT].blob.core.windows.net/temp" 
+   -m 5
 </code></pre>
 
-This should take quite a few minutes to complete, but when it does, your storage container should contain the following file which will include your movie recommendataions:
+This should take quite a few minutes to complete, but when it does, your storage container should contain the following file which will include your movie recommendations:
 /movies/output/part-r-00000
 
 This file has 3 columns: [Item ID of Movie], [Item ID of Recommendations related to this Movie], [Similarity Percentage]
@@ -126,6 +131,9 @@ The application that created the Azure Search index, had also created a field ca
 At this point you should be able to go back to the web application and click on any of the movies to see recommendations.
 
 If you want to see how the recommendations were returned when you clicked on this image, open Search.js and look at the openMovieDetails() function.
+
+## Operationalizing the Process
+Keeping an HDInsight cluster running all the time can be fairly expensive, so it is better to simply launch a new instance whenever you want to update the recommendations in your Azure Search service.  There are numerous ways to do this, but one option is to use Azure Data Factory, where you can create a scheduled process to run this.  You can learn more about how to do this, [here](https://azure.microsoft.com/en-in/documentation/articles/data-factory-map-reduce/).
 
 ## Credit
 
