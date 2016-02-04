@@ -114,9 +114,14 @@ To do this, within the AzureSearchAnalyticsExtraction project, configure the Sto
 
 ## Uploading Usage Data to Azure ML Recommendations API
 
-In the previous step, we created a usage.csv file from Azure Search Traffic Analytics.  
+In the previous step, we created a usage.csv file from Azure Search Traffic Analytics.  To do this, we will use the AzureMLRecommendations project.  Before running this project, you will need to do the following:
+
+- Register for an Azure ML Recommendations API account [here](http://datamarket.azure.com/dataset/amla/recommendations)
+- Get the Azure ML Recommendations Email & Account Key and update the AzureMLRecommendations project with these values
+- Run this project and make note of the Model ID and Build ID that are created as you will use this in the Web Site to call recommendations
 
 ## Visualizing the Recommendations
+
 At this point you should be able to go back to the web application and click on any of the movies to see recommendations.
 
 If you want to see how the recommendations were returned when you clicked on this image, open Search.js and look at the openMovieDetails() function.
