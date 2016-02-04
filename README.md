@@ -15,8 +15,8 @@ This sample shows how to add recommendations to an Azure Search index.
 Recommendations is a technique for surfacing more items from a catalog based on existing search User activity (such as web logs) used to recommend items and improve conversion.  
 Recommendation engines often trained using past customer activity or by collecting data directly from digital store
 Common recommendations include: 
-- Frequently Bought Together: a customer who bought this also bought that
-- Customer to Item recommendations: a customer like you also bought that
+- <b>Frequently Bought Together</b>: a customer who bought this also bought that
+- <b>Customer to Item Recommendations</b>: a customer like you also bought that
 
 ## Creating the Azure Search Index
 
