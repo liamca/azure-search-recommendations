@@ -79,6 +79,24 @@ To simulate these user requests you can run the SimulateAzureSearchLookupRequest
 
 This process will take some time since it is simulating over 600,000 users lookups.  
 
+### Choosing a Recommendation Option
+
+There are numerous ways that item recommendations can be created using this usage data.  The two options I prefer are [Azure ML Recommendations API](http://datamarket.azure.com/dataset/amla/recommendations) and [Apache Mahout](http://mahout.apache.org/).  Both options I feel have strengths and weaknesses which often direct you to use one over the other such as:
+
+<b>Azure ML Recommendations API</b>
+- Very simple to use either through the .NET API or through their [UI interface](http://recommendations.azurewebsites.net)
+- Provides really good recommendations without the need for deep Machine Learning experience
+- Currently limited to 100,000 items (meaning in our example, no more than 100,000 movies)
+- Pricing can get expensive if you send large numbers of recommendation requests 
+
+<b>Apache Mahout</b>
+- Able to support extremely large numbers of items 
+- Provides good recomendations out of the box, but can be complex to improve without Machine Learning experience
+- Can be a good option for Java developers
+- Can be difficult to operationalize
+
+My personal preference is to use the Azure ML Recommendations API if my content size fits their limits because it is much simpler (IMO) to use and operationalize.  I will focus the following sections on how to do this, but if you would prefer to do this using Machout, please take a [look here](https://github.com/liamca/azure-search-recommendations/tree/master/MahoutOutputLoader).
+
 ### Extracting User Data for Recommendations
 
 Now that we have simulated a huge number of user search requests, we will want to export this data into a csv file (which we will call usage.csv) that is in format userId, productId indicating that the user of id userId looked at an item with id of productId. For example:
