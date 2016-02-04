@@ -24,18 +24,12 @@ Common recommendations include:
 ## Creating the Azure Search Index
 
 - Open the solution AzureSearchMovieRecommendations.sln and set ImportAzureSearchIndexData as the Default Project.  
-- Open Program.cs within ImportAzureSearchIndexData and alter SearchServiceName and SearchApiKey to point to your Azure Search service
+- Open App.config within ImportAzureSearchIndexData and update the SearchServiceName and SearchApiKey to point to your Azure Search service
 - Download hetrec2011-movielens-2k.zip from http://grouplens.org/datasets/hetrec-2011/ and copy the files Movies.dat & user_ratedmovies.dat to the \ImportAzureSearchIndexData\data
-- Run the project to create an index and load Movie data 
+- Buid &Run the project to create an index and load Movie data 
 - At the end, the application will execute a test search
 
 ## Create a simple HTML application to Search Movies
-
-A completed JavaScript web application to allow you to Query the Azure Search index can be found: 
-\WebSite\starter-template-complete
-
-If you would like to walk through the demo from scratch, the original CSS can be found here:
-\WebSite\starter-template
 
 Open the search.js file within \WebSite\starter-template-complete and update the apiKey and azureSearchService with your Azure Search service details.
 
@@ -78,7 +72,7 @@ At this point you will need to turn on Search Traffic Analytics for your Azure S
 
 ### Simulating User Lookups
 
-To simulate these user requests you can run the SimulateAzureSearchLookupRequests project from within the AzureSearchMovieRecommendations Solution.  Before running, remember to add your Azure Search service name and Azure Search admin API key.  
+To simulate these user requests you can run the SimulateAzureSearchLookupRequests project from within the AzureSearchMovieRecommendations Solution.  Before running, open App.config within this project and update the SearchServiceName and SearchApiKey to point to your Azure Search service.  
 
 This process will take some time since it is simulating over 600,000 users lookups.  
 
