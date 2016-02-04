@@ -10,6 +10,10 @@ This sample shows how to add recommendations to an Azure Search index.
 
 ![Demo Screen Shot](https://raw.githubusercontent.com/liamca/azure-search-recommendations/master/product_recommendations.png)
 
+# Give it a Try
+
+Give the [following demo](https://rawgit.com/liamca/azure-search-recommendations/master/WebSite/demo/index.html) a try to see what we will be building by searching for a movie and then click on the movie to see recommendations.
+
 ## What is a Recommendation?
 
 Recommendations is a technique for surfacing more items from a catalog based on existing search User activity (such as web logs) used to recommend items and improve conversion.  Recommendation engines are often trained using past customer activity or by collecting data directly from digital store
