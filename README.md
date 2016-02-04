@@ -39,7 +39,7 @@ Open the search.js file within \WebSite\starter-template-complete and update the
 You should be able to open this file in a browser such as Chrome to now view movies by typing into the search box.
 
 ## Getting Usage Data using Azure Search Traffic Analytics
-Azure Search Traffic Analytics is a feature of Azure Search that tracks all activity agains your search service.  This includes statistic as well as details of individual search operations.  You can learn more about this feature in my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) as well as the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
+Azure Search Traffic Analytics is a feature of Azure Search that tracks all activity against your search service.  This includes statistic as well as details of individual search operations.  You can learn more about this feature in my [video](https://channel9.msdn.com/Shows/Data-Exposed/Custom-Analyzers-Search-Analytics--Portal-Querying-in-Azure-Search) as well as the following [blog](https://azure.microsoft.com/en-us/documentation/articles/search-traffic-analytics/).
 
 For this demo, we will be extracting all of the individual document lookups.  This would happen when a user see's search results and then clicks on an individual result to get details.  An example of a lookup of a document with ID 30 might look like the following.
 <pre><code>
@@ -77,7 +77,7 @@ At this point you will need to turn on Search Traffic Analytics for your Azure S
 
 To simulate these user requests you can run the SimulateAzureSearchLookupRequests project from within the AzureSearchMovieRecommendations Solution.  Before running, remember to add your Azure Search service name and Azure Search admin API key.  
 
-This process will take some time since it is simlating over 600,000 users lookups.  
+This process will take some time since it is simulating over 600,000 users lookups.  
 
 ### Extracting User Data for Recommendations
 
@@ -97,7 +97,7 @@ To do this, within the AzureSearchAnalyticsExtraction project, configure the Sto
 ## Command to Create Recommendations using Mahout
 
 - Upload the file data\movie_usage.txt to Azure Blob Storage 
-- I used Azure HDInsight to create a Hadoop version 2.7.0  (HDI 3.3) cluster on Windows which you might want to also created because Mahout can act very differntly from version to version.
+- I used Azure HDInsight to create a Hadoop version 2.7.0  (HDI 3.3) cluster on Windows which you might want to also created because Mahout can act very differently from version to version.
 - Create an HDInsight instance (enabling Remote Desktop) and connect to the machine through Remote Desktop (available from the Azure Portal).  
 - From the HDInsight machine, open the "Hadoop Command Line"
 - Change to the Mahout bin directory under c:\apps\dist.  Mine looks like this, but you may get a more recent version of Mahout
@@ -113,7 +113,7 @@ mahout itemsimilarity
    -m 5
 </code></pre>
 
-This should take quite a few minutes to complete, but when it does, your storage container should contain the following file which will include your movie recommendataions:
+This should take quite a few minutes to complete, but when it does, your storage container should contain the following file which will include your movie recommendations:
 /movies/output/part-r-00000
 
 This file has 3 columns: [Item ID of Movie], [Item ID of Recommendations related to this Movie], [Similarity Percentage]
