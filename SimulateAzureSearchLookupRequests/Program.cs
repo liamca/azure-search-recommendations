@@ -2,6 +2,7 @@
 using Microsoft.Azure.Search.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -11,8 +12,8 @@ namespace SimulateAzureSearchLookupRequests
 {
     class Program
     {
-        public static string searchServiceName = [Azure Search Service];
-        public static string apiKey = [Azure Search Service Admin API Key];
+        public static string SearchServiceName = ConfigurationManager.AppSettings["SearchServiceName"];
+        public static string SearchApiKey = ConfigurationManager.AppSettings["SearchApiKey"];
 
         private static Uri _serviceUri;
         private static HttpClient _httpClient;
@@ -26,9 +27,9 @@ namespace SimulateAzureSearchLookupRequests
             int counter = 0;
             string line;
 
-            _serviceUri = new Uri("https://" + searchServiceName + ".search.windows.net");
+            _serviceUri = new Uri("https://" + SearchServiceName + ".search.windows.net");
             _httpClient = new HttpClient();
-            _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
+            _httpClient.DefaultRequestHeaders.Add("api-key", SearchApiKey);
 
 
             var tasks = new Task[TaskCount];

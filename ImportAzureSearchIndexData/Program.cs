@@ -25,8 +25,8 @@ namespace ImportAzureSearchIndexData
 {
     class Program
     {
-        public static string SearchServiceName = [Azure Search Service - Exclude .search.windows.net];
-        public static string SearchApiKey = [Azure Search API Key];
+        public static string SearchServiceName = ConfigurationManager.AppSettings["SearchServiceName"];
+        public static string SearchApiKey = ConfigurationManager.AppSettings["SearchApiKey"];
 
         public static string IndexName = "movies";
         public static SearchServiceClient SearchClient;

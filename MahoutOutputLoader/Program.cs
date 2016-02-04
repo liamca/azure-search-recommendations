@@ -15,10 +15,10 @@ namespace MahoutOutput_Loader
 {
     class Program
     {
-        public static string SearchServiceName = [Azure Search Service - Exclude .search.windows.net];
-        public static string SearchApiKey = [Azure Search API Key];
-        public static string StorageApiKey = [Azure Storage API Key];
-        public static string StorageAccountName = [Azure Storage Account Name];
+        public static string SearchServiceName = ConfigurationManager.AppSettings["SearchServiceName"];
+        public static string SearchApiKey = ConfigurationManager.AppSettings["SearchApiKey"];
+        public static string StorageApiKey = ConfigurationManager.AppSettings["StorageApiKey"];
+        public static string StorageAccountName = ConfigurationManager.AppSettings["StorageAccountName"];
 
         public static string IndexName = "movies";
         public static string StorageContainer = "movies";

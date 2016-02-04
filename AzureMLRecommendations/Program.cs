@@ -2,6 +2,7 @@
 // to create product recommendations
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace AzureSearchRecommendations
     {
         // Azure ML Recommendations Account Details
         // You can create and get this information from here: 
-        public static string AzureMLRecommendationsEmail = [Azure ML Recommendations API Email Address];
-        public static string AzureMLRecommendationsAccountKey = [Azure ML Recommendations API Account Key];
+        public static string AzureMLRecommendationsEmail = ConfigurationManager.AppSettings["AzureMLRecommendationsEmail"];
+        public static string AzureMLRecommendationsAccountKey = ConfigurationManager.AppSettings["AzureMLRecommendationsAccountKey"];
 
         static void Main(string[] args)
         {
