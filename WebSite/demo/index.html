@@ -53,9 +53,10 @@
 
     <div class="container">
 
+		<p>This is a demo that leverages Azure Search and Azure ML Recommendations to proovide movie recommendations.  Simply enter in a movie name to search Azure Search and then click on the resulting image to see movie recommendations returned using Azure ML Recommendations API.</p>
 		<div class="row">
 			<div class="input-group" style="padding:20px;">
-				  <input type="text" class="form-control" placeholder="Search for..." id="q" oninput="execSuggest();" >
+				  <input type="text" class="form-control" placeholder="Enter a movie name to search..." id="q" oninput="execSuggest();" >
 				  <span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="execSuggest();">Go!</button>
 				  </span>
