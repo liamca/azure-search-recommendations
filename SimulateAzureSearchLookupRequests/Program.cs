@@ -44,7 +44,7 @@ namespace SimulateAzureSearchLookupRequests
                 tasks[index] = Task.Factory.StartNew(() => ExecLookup(UserRequest));
                 index++;
 
-                if (index == 10)
+                if (index == TaskCount)
                 {
                     Task.WaitAll(tasks);
                     Console.WriteLine("Completed Requests");
